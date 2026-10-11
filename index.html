@@ -294,6 +294,14 @@ details.minihelp>summary{font-size:13px;font-weight:700;color:var(--ink);cursor:
 /* pinned candidate bar and sheet */
 #cand{position:sticky;top:env(safe-area-inset-top,0px);z-index:25;margin:0 -16px 10px;padding:6px 16px;background:var(--paper)}
 #cand:empty{display:none}
+.candrow{display:flex;gap:8px;align-items:stretch}
+.candrow .candbar{flex:1;min-width:0}
+.candrow.only{justify-content:flex-end}
+.restartbtn{font:inherit;font-size:13px;font-weight:700;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:0 12px;min-height:44px;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.restartbtn span{font-size:16px;margin-right:2px}
+.restartask{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--card);border:1.5px solid var(--gold);border-radius:12px;padding:10px 12px;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.restartask .rs-btns{display:flex;gap:8px}
+.restartask .btn{min-height:40px;padding:8px 14px;font-size:14px;width:auto}
 .candbar{display:flex;align-items:center;gap:10px;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.06);min-height:52px}
 .cb-l{width:5px;align-self:stretch;border-radius:3px;flex:none}
 .party-bg-D{background:var(--dem)}.party-bg-R{background:var(--rep)}
@@ -1502,7 +1510,7 @@ function setupCTA(){
 const SCROLLTO={pevpick:"#main .banner",brokgo:"#main .banner",strawpick:"#main .banner",pdpick:"#main .banner",vpcall:"#vpres",fundgo:"#main .banner",pnext:"#main .banner, #roundcard",pskip:"#main .banner, #roundcard",convpick:"#main .banner",vetpick:"#main .banner",dbpick:"#main .banner",octpick:"#main .banner",crisispick:"#crisisres",cabgo:"#cabhead",livenext:".live .clock"};
 function afterRender(){
   saveRun();
-  const cd=$("#cand");if(cd)cd.innerHTML=candBar();
+  drawCand();
   document.body.classList.toggle("ingame",!(G.stage==="build"&&filled()<=prefilled()&&!G.draw));
   setupCTA();
   tutHighlight();tutFoot();
@@ -1511,6 +1519,21 @@ function afterRender(){
 
 // ---------- your candidate: pinned summary and full sheet ----------
 const candReady=()=>G&&G.stage!=="build"&&filled()===CATS.length;
+// A restart button that stays on screen (in the sticky bar) once a run is under way, with an in-page confirmation
+let restartAsk=false;
+const runStarted=()=>G&&!(G.stage==="build"&&filled()<=prefilled()&&!G.draw);
+function drawCand(){
+  const cd=$("#cand");if(!cd)return;if(!runStarted()){restartAsk=false;cd.innerHTML="";return}
+  const bar=candBar();
+  cd.innerHTML=restartAsk?`<div class="restartask" role="group" aria-label="Restart the game"><span><b>Start a new game?</b> This run ends. Your Hall, stats and badges stay.</span><span class="rs-btns"><button class="btn" data-act="restartyes">Start over</button><button class="btn ghost" data-act="restartno">Keep playing</button></span></div>`
+    :`<div class="candrow ${bar?"":"only"}">${bar}<button class="restartbtn" data-act="restart" aria-label="Restart the game"><span aria-hidden="true">↺</span> Restart</button></div>`;
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest&&e.target.closest("[data-act=restart],[data-act=restartyes],[data-act=restartno]");if(!b||busy)return;const a=b.dataset.act;
+  if(a==="restart"){restartAsk=true;drawCand()}
+  else if(a==="restartno"){restartAsk=false;drawCand()}
+  else{restartAsk=false;closeSheet&&closeSheet();clearRun();fresh();go("build")}
+});
 function candBar(){
   if(!candReady())return "";
   const m=me(),vp=G.vp,cashNow=G.stage==="campaign"&&G.camp?cash():G.chest;
