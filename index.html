@@ -311,6 +311,21 @@ details.minihelp>summary{font-size:13px;font-weight:700;color:var(--ink);cursor:
 .cb-dots{display:flex;gap:4px;flex:none}
 .cb-dots .dot{margin:0;width:10px;height:10px}
 .cb-more{color:var(--muted);font-size:13px;flex:none}
+.wallet{position:relative;flex:none;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;min-width:76px;padding:0 2px 0 10px;border-left:1px solid var(--line);line-height:1.1}
+.wallet small{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.wallet b{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:1px}
+.wmeter{display:block;width:100%;height:5px;border-radius:3px;background:var(--line);margin-top:4px;overflow:hidden}
+.wmeter i{display:block;height:100%;background:var(--ink);border-radius:3px;transition:width .45s ease}
+.wallet.low .wmeter i{background:var(--gold)}
+.wdelta{position:absolute;right:-4px;top:calc(100% + 12px);z-index:2;font-size:13px;font-weight:800;line-height:1;padding:6px 10px;border-radius:999px;background:var(--ink);color:var(--card);font-size:14px;white-space:nowrap;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.22);animation:wdelta 1.7s ease-out forwards}
+.wdelta.pos{background:var(--gold);color:#0E1B33}
+@keyframes wdelta{0%{opacity:0;transform:translateY(-8px)}12%{opacity:1;transform:none}70%{opacity:1;transform:none}100%{opacity:0;transform:translateY(6px)}}
+.wallet.bump b{animation:wbump .45s ease-out}
+@keyframes wbump{0%{transform:scale(1.2)}100%{transform:none}}
+@media (prefers-reduced-motion:reduce){.wdelta{animation:wfade 2s linear forwards}.wallet.bump b{animation:none}.wmeter i{transition:none}}
+@keyframes wfade{0%,75%{opacity:1}100%{opacity:0}}
+@media (max-width:520px){.candbar.haswallet .cb-dots{display:none}.candbar.haswallet{gap:8px}}
+.srh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .sheet{position:fixed;inset:0;z-index:45;display:flex;align-items:flex-end;justify-content:center;background:rgba(14,27,51,.5)}
 .sheet[hidden]{display:none}
 .sheet-in{position:relative;background:var(--card);color:var(--ink);width:100%;max-width:760px;max-height:86vh;overflow:auto;overscroll-behavior:contain;border-radius:18px 18px 0 0;padding:10px 18px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 30px rgba(0,0,0,.25)}
@@ -405,6 +420,7 @@ body.ingame header{margin-bottom:4px}
     <div class="prog" id="prog"></div>
   </header>
   <div id="cand"></div>
+  <div id="walletsr" class="srh" aria-live="polite"></div>
   <main id="main"></main>
   <details class="how">
     <summary>How the simulation works</summary>
@@ -431,7 +447,7 @@ body.ingame header{margin-bottom:4px}
     <p><b>Election night</b> starts each state at its 2024 partisan lean, applies both tickets' strengths, the national mood, regional fit, home states, rallies, ads and the October surprise, then squeezes big national swings to reflect today’s polarized electorate and runs 10,000 simulations with national, regional and state-level error. You step through the night by Eastern poll-closing time: blowouts are called right away, close states hours later. Uncalled states are shaded by who leads the count so far, and early leads can mislead: states that count mail ballots late, like Pennsylvania, Michigan and Wisconsin, lean Republican early and shift toward Democrats, while states that report early votes first, like Arizona, North Carolina and Ohio, do the reverse. The shift is biggest in 2020, smaller today and small before 2020. It never changes who wins. Swing states are any your side wins between 15% and 85% of the time. A 269–269 tie goes to the House, where Republicans hold most state delegations.</p>
     <p><b>Congress.</b> House and Senate results ride your coattails, following your popular-vote margin. Holding both chambers makes your first-term priorities likelier to pass; facing a hostile Congress makes them harder. Losing the House at the midterms makes your last priority harder still.</p>
     <p><b>Recounts.</b> If the presidency hinges on a state decided by less than half a point, election night ends without a call and you choose how to fight the recount: in court, with a hand count, or by conceding.</p>
-    <p><b>Governing and re-election.</b> Win, and you can run again. First you govern. You pick a Treasury, State and Defense secretary from three options each; their stance and résumé raise or lower the odds of related priorities, experienced picks steady your crisis response, and a Senate run by the other party may reject nominees far from the center. Then pick three priorities in order, such as tax cuts, health coverage, a climate bill or a military intervention. Your ideology sets each one’s odds, and a landslide win gives you a mandate. The first two come before the midterms, where the party in power usually loses seats; a wave election makes your third priority harder. In year 3, a random crisis strikes, such as a financial crash, a pandemic, an invasion of an ally or a scandal at a federal agency, and your response (with odds set by your traits) goes into the record too. The results become your record, which replaces the national mood and economy. You then run as the sitting president, four years older, with the same running mate, against a new challenger.</p>
+    <p><b>Governing and re-election.</b> Win, and you can run again. First you govern. You pick a Treasury, State and Defense secretary from three options each; their stance and résumé raise or lower the odds of related priorities, experienced picks steady your crisis response, and a Senate run by the other party may reject nominees far from the center. Then pick three priorities in order, such as tax cuts, health coverage, a climate bill or a military intervention. Your ideology sets each one’s odds, and a landslide win gives you a mandate. The first two come before the midterms, where the party in power usually loses seats; a wave election makes your third priority harder. In year 3, a random crisis strikes, such as a financial crash, a pandemic, an invasion of an ally or a scandal at a federal agency, and your response (with odds set by your traits) goes into the record too. The results become your record, which replaces the national mood and economy. You then run as the sitting president, four years older, with the same running mate, against a new challenger. Incumbents raise more: your war chest is about $175M on Easy and $150M on Hard, higher with a strong approval rating and lower with a weak one. Challengers to a sitting president raise $125M to $175M, more with a bigger résumé.</p>
   </details>
   <details class="how"><summary>Modes and difficulty</summary><p><b>Hypothetical 2028</b> is the main game: today’s state electorates, with your Year setting the mood. <b>Realistic 2028</b> has you pick one of 20 real 2028 contenders, from JD Vance and Gavin Newsom to Alexandria Ocasio-Cortez and Glenn Youngkin, with their traits locked in. You spin only for the national mood and the economy. Republicans hold the White House, so a past year’s mood carries over as a mood toward the party in power, and the GOP gets the credit or blame for the economy. You face the rest of your party’s real field, with everyone’s starting odds set by the RealClearPolling national primary averages (July 19 to Sept. 28, 2026), scaled to the 10-candidate field; endorsers, running mates and cabinet picks are today’s party figures; and your opponent is drawn from the other party’s field, weighted by their primary odds. <b>What-if</b> drops your candidate into a real year from 1980 to 2024: that year’s mood and economy, its real primary field, the real opposing ticket and its real third-party run, all on that year’s state-by-state map. <b>Scenario</b> puts you in the shoes of a real candidate (Ted Kennedy in 1980, Gary Hart in 1984, Hillary Clinton in 2008, Ted Cruz in 2016 and more), with their real traits and their real primary field. Your starting nomination odds are calibrated to roughly where they stood in national primary polls when primary season began, and cut further if you face a sitting or former president or vice president, who also gains strength from Super Tuesday on as the establishment consolidates; your endorser, focus, fundraising and moves take it from there. Kamala Harris’s 2024 scenario starts after Biden steps aside. Endorsers, running mates and cabinet picks come from people active around that year, super PACs only exist from 2008 on, and the general election starts from roughly where the real race stood in June polling, adjusted for how your ticket differs from the real nominee’s. Electoral votes follow the census apportionment in effect that year, and Maine and Nebraska split their votes by district the way they did then. Afterward you see how you did compared with what actually happened. Win, and you can run again four years later on the next real map against that year’s real opposing ticket (through 2020).</p><p><b>Easy</b> gives 4 re-spins, a primary boost, +0.8 nationally in November, 20% more money and better odds for first-term priorities. <b>Hard</b> gives 2 re-spins and flips each of those against you, with 15% less money.</p><p><b>Your candidate.</b> Once your build is done, the bar pinned at the top shows your candidate at a glance; tap it for the full card, your running mate, your opponent and your run so far.</p><p><b>Tutorial tips.</b> Turn them on at the top of the build screen or at the bottom of the page. A short tip appears the first time you reach each stage, and the control it refers to is outlined in gold. Tap Got it to dismiss a tip, or Turn off tips to stop them.</p><p><b>Saving.</b> Your run is saved on this device after every step. If you close the page, you can pick up where you left off. Every president you elect goes into the Hall of presidents, along with stats on how your runs have gone.</p></details>
   <div id="hall"></div>
@@ -456,7 +472,7 @@ const OCCG={P:2,FP:1.5,VP:1,XP:1,G:1.2,S:0.6,XG:0.6,XS:0.2,C:0.5,B:0.3,M:0,R:-0.
 const OCCL={P:"Sitting president",FP:"Former president",VP:"Sitting vice president",XP:"Former vice president",G:"Governor",S:"Senator",XG:"Former governor",XS:"Former senator or Speaker",C:"Cabinet, diplomat or general",B:"Business",M:"Mayor",R:"House member",XR:"Former House member",X:"Media, author or activist"};
 // Starting war chest by résumé ($M), general-election funds after the nomination, and prices
 const START$={P:60,FP:55,VP:50,XP:45,G:40,S:40,XG:35,XS:30,C:35,B:50,M:25,R:25,XR:20,X:20};
-const GEN$=40,AD$=8,BLITZ$=30,BLITZPTS=0.7;
+const INC$={easy:175,hard:150},GEN$=40,AD$=8,BLITZ$=30,BLITZPTS=0.7;
 // Annual U.S. economy by year: real GDP growth, CPI inflation, unemployment rate, effective fed funds rate (BEA, BLS, Federal Reserve)
 const ECON={1980:[-0.3,13.5,7.2,13.35],1984:[7.2,4.3,7.5,10.23],1988:[4.2,4.1,5.5,7.57],1992:[3.5,3.0,7.5,3.52],1996:[3.8,2.9,5.4,5.30],2000:[4.1,3.4,4.0,6.24],2004:[3.8,2.7,5.5,1.35],2008:[-0.1,3.8,5.8,1.93],2012:[2.3,2.1,8.1,0.14],2016:[1.8,1.3,4.9,0.40],2020:[-2.2,1.2,8.1,0.38],2024:[2.8,2.9,4.0,5.14]};
 // Party holding the White House during each election year
@@ -1172,7 +1188,7 @@ function startCampaign(){
   const tops=U.map((u,i)=>({id:u.id,w:u.ev*Math.exp(-(((muPre[i])/5)**2))})).sort((a,c)=>c.w-a.w);
   G.oppRallies={};tops.slice(0,4).forEach(x=>G.oppRallies[x.id]=1);
   // Opponent's war chest: their résumé, the party's general-election money, and their own primary haul
-  G.opp$=START$[opp.p.cat]+GEN$+40;let c=G.opp$;G.oppBlitz=false;G.oppAds={};
+  G.opp$=G.term===2?Math.max(125,Math.min(175,105+START$[opp.p.cat]+Math.floor(Math.random()*11))):START$[opp.p.cat]+GEN$+40;let c=G.opp$;G.oppBlitz=false;G.oppAds={};
   if(c>=80){G.oppBlitz=true;c-=BLITZ$}
   // Field offices in up to three big states they lead narrowly
   G.oppOff={};U.map((u,i)=>({id:u.id,v:(opp.party==="R"?1:-1)*muPre[i],ev:u.ev})).filter(x=>x.v>0&&x.v<5&&x.id.length===2).sort((a,c)=>c.ev-a.ev).slice(0,3).forEach(x=>{if(c>=OFF$){G.oppOff[x.id]=1;c-=OFF$}});
@@ -1194,7 +1210,7 @@ function campInfo(id){const i=UI[id],{youR}=matchup();return `<b>${uname(id)}</b
 function marksText(id){const r=G.rallies[id]||0,a=G.ads[id]||0,n=(G.negAds||{})[id]||0;return (r?` <span class="mk">★${r}</span>`:"")+(a?` <span class="mk">${money(a*AD$)}</span>`:"")+(n?` <span class="mk neg">${money(n*AD$)} attack</span>`:"")+((G.offices||{})[id]?` <span class="mk">Office</span>`:"")}
 function rCampaign(){
   const{youR}=matchup(),c=G.camp,left=4-ralliesUsed();
-  let h=`<section class="panel"><h2>Hit the campaign trail</h2>${G.spoil?`<div class="banner lose"><span class="big">Third-party challenge</span>${spoilText(false)}</div>`:""}<p class="small muted">Spend 4 free rallies and your ${money(G.chest)} war chest. ${esc(lastName(matchup().opp.p.name))}’s campaign has shown its hand: hollow stars (☆) on the map mark their rallies, and the battleground list shows their ads${G.oppBlitz?", plus a national ad blitz":""}.</p><details class="minihelp"><summary>How rallies and ads work</summary><p class="small muted">A rally is worth 1.5 points in a state (a second adds 0.75). TV ads come in ${money(AD$)} buys, as many as you can afford: the first buy in a state is worth 1 point, the second 0.5, the third 0.33, and so on. Positive ads are a sure thing. Attack ads on your opponent land ${Math.round(NEG_P*100)}% of the time for 2.2 times a positive ad’s punch and backfire otherwise (−0.8 times). They do half as much where your opponent is also rallying or advertising, and theirs do half as much where you are. Attack buys count after any positive buys in the same state, so the diminishing returns are shared. Field offices cost ${money(OFF$)}, one per state: each adds ${OFFPTS} points and cuts that state’s share of polling error, which protects a lead but won’t rescue a state you trail.</p></details>`;
+  let h=`<section class="panel"><h2>Hit the campaign trail</h2>${G.spoil?`<div class="banner lose"><span class="big">Third-party challenge</span>${spoilText(false)}</div>`:""}<p class="small muted">Spend 4 free rallies and your ${money(G.chest)} war chest. ${esc(lastName(matchup().opp.p.name))}’s campaign has ${money(G.opp$)} and has shown its hand: hollow stars (☆) on the map mark their rallies, and the battleground list shows their ads${G.oppBlitz?", plus a national ad blitz":""}.</p><details class="minihelp"><summary>How rallies and ads work</summary><p class="small muted">A rally is worth 1.5 points in a state (a second adds 0.75). TV ads come in ${money(AD$)} buys, as many as you can afford: the first buy in a state is worth 1 point, the second 0.5, the third 0.33, and so on. Positive ads are a sure thing. Attack ads on your opponent land ${Math.round(NEG_P*100)}% of the time for 2.2 times a positive ad’s punch and backfire otherwise (−0.8 times). They do half as much where your opponent is also rallying or advertising, and theirs do half as much where you are. Attack buys count after any positive buys in the same state, so the diminishing returns are shared. Field offices cost ${money(OFF$)}, one per state: each adds ${OFFPTS} points and cuts that state’s share of polling error, which protects a lead but won’t rescue a state you trail.</p></details>`;
   h+=`<div class="stats stats4"><div class="stat"><b>${pct(youP(c.seenPre||c.pre,youR))}</b><span>If you sit out</span></div><div class="stat"><b>${pct(youP(c.seen||c.cur,youR))}</b><span>With your plan</span></div><div class="stat"><b>${left}</b><span>Rallies left</span></div><div class="stat"><b>${money(cash())}</b><span>Cash left</span></div></div>`;
   h+=`<button class="opt blitz ${G.blitz?"on":""}" data-act="blitz" ${!G.blitz&&cash()<BLITZ$?"disabled":""}><b>${G.blitz?"✓ National ad blitz bought":"Buy a national ad blitz"}</b><span>${money(BLITZ$)} for +${BLITZPTS} points in every state.${G.blitz?" Tap to cancel.":""}</span></button>${G.spoll?`<p class="small muted">All odds here are estimates from the polls. Public polls are off by ±3 points or more in each state and can all miss in the same direction. Pay for your own polls in a state (the Polls tab) for a ±1 read that updates through Election Day.</p>`:""}`;
   const o=mapOpts();
@@ -1277,6 +1293,7 @@ function histTicket(party){const h=HIST[curYear()][party];return{party,p:find(h[
 // Difficulty: Easy helps you in the primary, the general, fundraising and governing; Hard does the opposite
 const DIFF={easy:{l:"Easy",prim:0.5,gen:0.8,cash:1.2,gov:0.05,spins:4},hard:{l:"Hard",prim:-0.5,gen:-0.8,cash:0.85,gov:-0.05,spins:2}};
 const DF=()=>DIFF[(G&&G.diff)||"easy"];
+const incBase=()=>INC$[(G&&G.diff)||"easy"]||INC$.easy; // a sitting president’s typical war chest
 function loadPrefs(){try{return JSON.parse(localStorage.getItem("s538prefs"))||{}}catch(e){return{}}}
 function savePrefs(anim){try{const p=loadPrefs();localStorage.setItem("s538prefs",JSON.stringify({...p,diff:G.diff,...(anim?{anim}:{})}))}catch(e){}}
 const prefilled=()=>isScen()?CATS.length:isReal()?CATS.length-2:isHist()?2:0;
@@ -1523,10 +1540,12 @@ const candReady=()=>G&&G.stage!=="build"&&filled()===CATS.length;
 let restartAsk=false;
 const runStarted=()=>G&&!(G.stage==="build"&&filled()<=prefilled()&&!G.draw);
 function drawCand(){
-  const cd=$("#cand");if(!cd)return;if(!runStarted()){restartAsk=false;cd.innerHTML="";return}
+  const cd=$("#cand");if(!cd)return;if(!runStarted()){restartAsk=false;walletLast=null;cd.innerHTML="";return}
   const bar=candBar();
   cd.innerHTML=restartAsk?`<div class="restartask" role="group" aria-label="Restart the game"><span><b>Start a new game?</b> This run ends. Your Hall, stats and badges stay.</span><span class="rs-btns"><button class="btn" data-act="restartyes">Start over</button><button class="btn ghost" data-act="restartno">Keep playing</button></span></div>`
     :`<div class="candrow ${bar?"":"only"}">${bar}<button class="restartbtn" data-act="restart" aria-label="Restart the game"><span aria-hidden="true">↺</span> Restart</button></div>`;
+  const wm=cd.querySelector(".wmeter i[data-w]");if(wm&&wm.style.width!==wm.dataset.w+"%")requestAnimationFrame(()=>requestAnimationFrame(()=>{wm.style.width=wm.dataset.w+"%"}));
+  const sr=$("#walletsr");if(sr&&walletAnim){const A=walletAnim;sr.textContent=`${A.d<0?"Spent":"Added"} ${money(Math.abs(A.d))}. ${money(A.v)} ${A.camp?"left to spend":"in your war chest"}.`}
 }
 document.addEventListener("click",e=>{
   const b=e.target.closest&&e.target.closest("[data-act=restart],[data-act=restartyes],[data-act=restartno]");if(!b||busy)return;const a=b.dataset.act;
@@ -1534,11 +1553,24 @@ document.addEventListener("click",e=>{
   else if(a==="restartno"){restartAsk=false;drawCand()}
   else{restartAsk=false;closeSheet&&closeSheet();clearRun();fresh();go("build")}
 });
+// What's left to spend, always in view on the stages where you spend money. Each change flashes the amount spent or added.
+const WALLET_ST=["straw","pdebate","primary","campaign"];
+let walletLast=null,walletAnim=null;
+function walletHtml(){
+  walletAnim=null;
+  if(!WALLET_ST.includes(G.stage)||G.chest==null){walletLast=null;return ""}
+  const camp=G.stage==="campaign"&&!!G.camp,v=camp?cash():G.chest,tot=G.chest,pctOf=x=>Math.max(0,Math.min(100,tot>0?x/tot*100:0)).toFixed(1);
+  const prev=walletLast&&walletLast.st===G.stage?walletLast.v:null,d=prev===null?0:v-prev;
+  walletLast={st:G.stage,v};
+  if(d)walletAnim={d,v,camp};
+  const low=camp&&tot>0&&v<tot*0.2;
+  return `<span class="wallet${low?" low":""}${d?" bump":""}"><small>${camp?"Left to spend":"War chest"}</small><b>${money(v)}</b>${camp?`<i class="wmeter"><i style="width:${pctOf(d&&prev!==null?prev:v)}%" data-w="${pctOf(v)}"></i></i>`:""}${d?`<span class="wdelta ${d<0?"neg":"pos"}" aria-hidden="true">${d<0?"−":"+"}${money(Math.abs(d))}</span>`:""}</span>`;
+}
 function candBar(){
   if(!candReady())return "";
-  const m=me(),vp=G.vp,cashNow=G.stage==="campaign"&&G.camp?cash():G.chest;
+  const m=me(),vp=G.vp,wal=walletHtml(),cashNow=wal?0:G.stage==="campaign"&&G.camp?cash():G.chest;
   const dots=["econ","social","foreign"].map(k=>`<i class="dot" style="background:var(--s${m[k]})" title="${RL[m[k]]}"></i>`).join("");
-  return `<button class="candbar" data-act="candopen" aria-label="Show your candidate and your run so far"><span class="cb-l party-bg-${m.party}"></span><span class="cb-main"><b>${esc(m.name)}</b><small>${PN[m.party]}, ${STN[m.state]}, ${m.age}${vp?(G.vpMode?`. Running mate to ${esc(lastName(vp.name))}`:`. Running mate: ${esc(lastName(vp.name))}`):""}${cashNow&&G.stage!=="focus"?`. ${money(cashNow)}`:""}</small></span><span class="cb-dots">${dots}</span><span class="cb-more" aria-hidden="true">▾</span></button>`;
+  return `<button class="candbar${wal?" haswallet":""}" data-act="candopen" aria-label="Show your candidate and your run so far"><span class="cb-l party-bg-${m.party}"></span><span class="cb-main"><b>${esc(m.name)}</b><small>${PN[m.party]}, ${STN[m.state]}, ${m.age}${vp?(G.vpMode?`. Running mate to ${esc(lastName(vp.name))}`:`. Running mate: ${esc(lastName(vp.name))}`):""}${cashNow&&G.stage!=="focus"?`. ${money(cashNow)}`:""}</small></span><span class="cb-dots">${dots}</span>${wal}<span class="cb-more" aria-hidden="true">▾</span></button>`;
 }
 function journey(){
   const L=[],P=G.primary;
@@ -2613,6 +2645,7 @@ function finishGovern(k){
   G.gov.crisis.choice=k;G.gov.crisis.res={ok,v,msg:ok?x.ok:x.bad,good:p===1?v>=0:ok};
   R.c=govRoll(G.gov.picks[2],R.divided?-0.15:0);
   R.val=Math.round(Math.max(-4.5,Math.min(4.5,R.a.v+R.b.v+R.c.v+0.4*R.mid+v))*10)/10;R.appr.push(apprOf(R.a.v+R.b.v+0.4*R.mid+v),apprOf(R.val));
+  R.raise=Math.round(Math.max(-30,Math.min(30,3.5*R.val+randn()*6)));G.chest=incBase()+R.raise;
   const passed=[R.a,R.b,R.c].filter(q=>q.ok).length,good=G.gov.crisis.res.good;
   G.record=[`${passed} of 3 priorities succeeded, you ${good?"handled":"stumbled through"} ${C.n}, and your party ${R.seats>=0?"gained":"lost"} ${Math.abs(R.seats)} House seat${Math.abs(R.seats)===1?"":"s"} at the midterms. Approval: ${Math.round(apprOf(R.val))}%`,R.val];
   if(good){G.gov.runB.push("steady");const nb=award(["steady"]);G.gov.crisisNewB=nb}
@@ -2639,7 +2672,7 @@ function rGovern(){
   }
   h+=`<div class="banner ${X.res.good?"win":"lose"}" id="crisisres"><span class="big">${X.res.good?"You handled it":"It went badly"}</span>${X.res.msg} (${sg(X.res.v)} to your record)${Gv.crisisNewB&&Gv.crisisNewB.length?"<br>New: "+badgeChips(Gv.crisisNewB,"new"):""}</div>`;
   h+=line(R.c,"Year 4");
-  h+=`<div class="evt"><h3 class="evt-t">Your record: ${sg(R.val)}</h3><p>${G.record[0]}. That’s ${R.val>=0?"a tailwind":"a headwind"} of ${Math.abs(R.val).toFixed(1)} points for your re-election. You have a ${money(G.chest)} war chest as the incumbent.</p></div><button class="btn big" data-act="toopp">Draw your challenger</button>`;
+  h+=`<div class="evt"><h3 class="evt-t">Your record: ${sg(R.val)}</h3><p>${G.record[0]}. That’s ${R.val>=0?"a tailwind":"a headwind"} of ${Math.abs(R.val).toFixed(1)} points for your re-election. You have a ${money(G.chest)} war chest as the incumbent${R.raise==null?"":R.raise>=3?`, ${money(R.raise)} above the usual ${money(G.chest-R.raise)}${R.val>0?", helped by your approval rating":" thanks to a strong fundraising year"}`:R.raise<=-3?`, ${money(-R.raise)} below the usual ${money(G.chest-R.raise)}${R.val<0?" as donors cool on your approval rating":" after a slow fundraising year"}`:", about the usual for a sitting president"}.</p></div><button class="btn big" data-act="toopp">Draw your challenger</button>`;
   return h+`</section>`;
 }
 
@@ -2929,7 +2962,7 @@ function startTerm2(){clearCard();
   const g=G.gen;G.cong1=g.cong;G.prevOff=g.off.slice();G.term1={ev:g.youEV,opp:G.opp.p.name+" and "+G.opp.vp.name};G.term=2;
   G.slots.job={v:{job:"President",cat:"P"},src:"your first term"};G.slots.age={v:G.slots.age.v+4,src:"four years later"};
   G.vp={...G.vp,age:G.vp.age+4,job:"Vice President",cat:"VP"};
-  Object.assign(G,{endoGen:0,vet:null,vetEff:0,debate:null,conv:null,spoil:null,polls:[],gov:null,opp:null,oppDraw:null,oppRespins:1,camp:null,rallies:{},oppRallies:{},ads:{},oppAds:{},negAds:{},oppNeg:{},offices:{},oppOff:{},spoll:null,shock:null,blitz:false,oppBlitz:false,oct:null,gen:null,live:null,record:null,primMod:0,chest:Math.round((START$.P+GEN$)*DF().cash),mapMode:"result"});startGovern();
+  Object.assign(G,{endoGen:0,vet:null,vetEff:0,debate:null,conv:null,spoil:null,polls:[],gov:null,opp:null,oppDraw:null,oppRespins:1,camp:null,rallies:{},oppRallies:{},ads:{},oppAds:{},negAds:{},oppNeg:{},offices:{},oppOff:{},spoll:null,shock:null,blitz:false,oppBlitz:false,oct:null,gen:null,live:null,record:null,primMod:0,chest:incBase(),mapMode:"result"});startGovern();
 }
 
 // ---------- events ----------
